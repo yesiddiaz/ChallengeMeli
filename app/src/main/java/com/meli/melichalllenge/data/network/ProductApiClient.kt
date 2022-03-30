@@ -1,5 +1,6 @@
 package com.meli.melichalllenge.data.network
 
+import com.meli.melichalllenge.BuildConfig
 import com.meli.melichalllenge.data.model.CategoryModel
 import com.meli.melichalllenge.data.model.ProductModel
 import com.meli.melichalllenge.data.model.ProductsModel
@@ -15,7 +16,7 @@ interface ProductApiClient {
     ): Response<List<CategoryModel>>
 
     @GET("highlights/MLM/category/{category}")
-    @Headers("Authorization: Bearer APP_USR-5009778428763819-032923-8e866724745bc4f30e0963a320cc7f1a-265470601")
+    @Headers("Authorization: Bearer ${BuildConfig.TokenAPI}")
     suspend fun top20Products(
         @Path("category") category: String
     ): Response<ProductsModel>

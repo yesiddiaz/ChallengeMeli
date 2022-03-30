@@ -1,10 +1,14 @@
 package com.meli.melichalllenge.ui.view
 
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,12 +32,20 @@ class ProductsFragment : Fragment() {
         // Inflate the layout for this fragment
         initRecyclerView()
         productsViewModel.productModel.observe(viewLifecycleOwner) { list ->
-            Toast.makeText(requireContext(), list.size.toString(), Toast.LENGTH_SHORT).show()
             adapter.updateList(list)
         }
-        binding.btnnnn.setOnClickListener {
-            productsViewModel.search(binding.etSearch.text.toString())
-        }
+        binding.etSearch.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(p0: View?, keyCode: Int, event: KeyEvent?): Boolean {
+                if (event != null) {
+                    if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                        productsViewModel.search(binding.etSearch.text.toString())
+                        hideSoftKeyboard()
+                        return true
+                    }
+                }
+                return false
+            }
+        })
         return binding.root
     }
 
@@ -41,5 +53,10 @@ class ProductsFragment : Fragment() {
         adapter = RecyclerAdapter()
         binding.rvProducts.layoutManager = LinearLayoutManager(requireActivity())
         binding.rvProducts.adapter = adapter
+    }
+
+    private fun hideSoftKeyboard() {
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 }
