@@ -1,9 +1,8 @@
 package com.meli.melichalllenge.ui.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.meli.melichalllenge.databinding.ActivityMainBinding
-import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
 

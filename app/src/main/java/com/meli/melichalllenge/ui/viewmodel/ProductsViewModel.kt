@@ -6,10 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.meli.melichalllenge.data.model.ProductModel
 import com.meli.melichalllenge.domain.GetProductsUseCase
 import kotlinx.coroutines.launch
+import com.meli.melichalllenge.data.Result
 
 class ProductsViewModel : ViewModel() {
 
-    private val _productModel = MutableLiveData<List<ProductModel>>()
+    private val _productModel = MutableLiveData<Result<List<ProductModel>>>()
     val productModel = _productModel
     var getProductsUseCase = GetProductsUseCase()
 

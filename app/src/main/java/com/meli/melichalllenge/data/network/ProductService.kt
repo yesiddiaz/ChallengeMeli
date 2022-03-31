@@ -4,7 +4,7 @@ import com.meli.melichalllenge.BuildConfig
 import com.meli.melichalllenge.core.RetrofitHelper
 import com.meli.melichalllenge.data.model.CategoryModel
 import com.meli.melichalllenge.data.model.ProductModel
-import com.meli.melichalllenge.data.model.ProductsModel
+import com.meli.melichalllenge.data.model.TopProducts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -15,15 +15,15 @@ class ProductService {
     suspend fun getCategory(search: String): List<CategoryModel> {
         return withContext(Dispatchers.IO) {
             val response = retrofit.create(ProductApiClient::class.java)
-                .predictCategory(BuildConfig.TokenAPI, search)
-            response.body() ?: emptyList()
+                .getPredictCategory(BuildConfig.TokenAPI, search)
+            response.body()!!
         }
     }
 
-    suspend fun getTop20(category: String): ProductsModel? {
+    suspend fun getTopProducts(category: String): TopProducts? {
         return withContext(Dispatchers.IO) {
             val response = retrofit.create(ProductApiClient::class.java)
-                .top20Products(category)
+                .getTopProducts(category)
             response.body()
         }
     }
@@ -32,7 +32,7 @@ class ProductService {
         return withContext(Dispatchers.IO) {
             val response = retrofit.create(ProductApiClient::class.java)
                 .multiGetProducts(BuildConfig.TokenAPI, ids)
-            response.body() ?: emptyList()
+            response.body()!!
         }
     }
 }

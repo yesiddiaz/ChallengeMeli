@@ -7,12 +7,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.meli.melichalllenge.R
 import com.meli.melichalllenge.data.model.ProductModel
 
-class RecyclerAdapter(private var products: List<ProductModel> = emptyList()) :
+class RecyclerAdapter(
+    private var products: List<ProductModel> = emptyList(),
+    var onClickItem: (ProductModel) -> Unit
+) :
     RecyclerView.Adapter<ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(products: List<ProductModel>) {
-        this.products = products
+    fun updateList(products: List<ProductModel>?) {
+        if (products != null) {
+            this.products = products
+        }
         notifyDataSetChanged()
     }
 
@@ -24,7 +29,7 @@ class RecyclerAdapter(private var products: List<ProductModel> = emptyList()) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(products[position])
+        holder.bind(products[position], onClickItem)
     }
 
     override fun getItemCount(): Int = products.size

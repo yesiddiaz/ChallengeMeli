@@ -2,10 +2,10 @@ package com.meli.melichalllenge.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ProductsModel(
-    @SerializedName("content") var products: List<Content>
+data class TopProducts(
+    @SerializedName("content") var products: List<IdsProducts>
 )
 
-data class Content(
+data class IdsProducts(
     var id: String
 )
