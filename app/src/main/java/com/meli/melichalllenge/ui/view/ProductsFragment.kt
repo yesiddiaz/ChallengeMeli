@@ -52,7 +52,7 @@ class ProductsFragment : Fragment() {
             override fun onKey(p0: View?, keyCode: Int, event: KeyEvent?): Boolean {
                 if (event != null) {
                     if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                        productsViewModel.search(binding.etSearch.text.toString())
+                        productsViewModel.searchProducts(binding.etSearch.text.toString())
                         hideSoftKeyboard()
                         return true
                     }

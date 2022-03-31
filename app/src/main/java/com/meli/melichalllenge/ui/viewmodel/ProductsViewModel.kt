@@ -14,7 +14,7 @@ class ProductsViewModel : ViewModel() {
     val productModel = _productModel
     var getProductsUseCase = GetProductsUseCase()
 
-    fun search(search: String) {
+    fun searchProducts(search: String) {
         viewModelScope.launch {
             val result = getProductsUseCase(search)
             _productModel.postValue(result)
