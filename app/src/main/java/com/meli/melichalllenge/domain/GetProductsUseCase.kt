@@ -8,3 +8,10 @@ class GetProductsUseCase {
 
     suspend operator fun invoke(search: String) = repository.searchProducts(search)
 }
+
+class GetProductDescription {
+
+    private val repository = ProductRepository()
+
+    suspend operator fun invoke(id: String) = repository.getDescription(id)
+}

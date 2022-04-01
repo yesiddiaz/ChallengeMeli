@@ -3,6 +3,7 @@ package com.meli.melichalllenge.data.network
 import com.meli.melichalllenge.BuildConfig
 import com.meli.melichalllenge.core.RetrofitHelper
 import com.meli.melichalllenge.data.model.CategoryModel
+import com.meli.melichalllenge.data.model.DescriptionModel
 import com.meli.melichalllenge.data.model.ProductModel
 import com.meli.melichalllenge.data.model.TopProducts
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +34,14 @@ class ProductService {
             val response = retrofit.create(ProductApiClient::class.java)
                 .multiGetProducts(BuildConfig.TokenAPI, ids)
             response.body()!!
+        }
+    }
+
+    suspend fun getDescription(id: String): DescriptionModel? {
+        return withContext(Dispatchers.IO) {
+            val response = retrofit.create(ProductApiClient::class.java)
+                .getItemDescription(id)
+            response.body()
         }
     }
 }

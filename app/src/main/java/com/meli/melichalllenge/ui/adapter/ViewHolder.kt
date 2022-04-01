@@ -5,6 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.meli.melichalllenge.data.model.ProductModel
 import com.meli.melichalllenge.databinding.ItemProductBinding
+import com.meli.melichalllenge.util.toCurrency
 import com.squareup.picasso.Picasso
 import java.text.NumberFormat
 
@@ -17,12 +18,9 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             root.setOnClickListener {
                 onClickItem.invoke(product)
             }
-            val numberFormat = NumberFormat.getCurrencyInstance()
-            numberFormat.maximumFractionDigits = 0
-            val convert = numberFormat.format(product.body.price)
             Picasso.get().load(product.body.image).into(image)
             tvTitle.text = product.body.title
-            tvPrice.text = convert
+            tvPrice.text = product.body.price.toCurrency()
             tvInformation.text = product.body.condition
             tvLocation.text = product.body.ubicate.toString()
         }

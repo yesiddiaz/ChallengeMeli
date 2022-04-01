@@ -2,6 +2,7 @@ package com.meli.melichalllenge.data.network
 
 import com.meli.melichalllenge.BuildConfig
 import com.meli.melichalllenge.data.model.CategoryModel
+import com.meli.melichalllenge.data.model.DescriptionModel
 import com.meli.melichalllenge.data.model.ProductModel
 import com.meli.melichalllenge.data.model.TopProducts
 import retrofit2.Response
@@ -26,4 +27,8 @@ interface ProductApiClient {
         @Header("Authorization") token: String,
         @Query("ids") ids: String
     ): Response<List<ProductModel>>
+
+    @Headers("Authorization: Bearer ${BuildConfig.TokenAPI}")
+    @GET("items/{idItem}/description")
+    suspend fun getItemDescription(@Path("idItem") id:String) :Response<DescriptionModel>
 }
