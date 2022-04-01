@@ -5,16 +5,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.meli.melichalllenge.R
-import com.meli.melichalllenge.data.model.ProductModel
+import com.meli.melichalllenge.ui.model.ProductUI
 
 class RecyclerAdapter(
-    private var products: List<ProductModel> = emptyList(),
-    var onClickItem: (ProductModel) -> Unit
+    private var products: List<ProductUI> = emptyList(),
+    var onClickItem: (ProductUI) -> Unit
 ) :
     RecyclerView.Adapter<ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(products: List<ProductModel>?) {
+    fun updateList(products: List<ProductUI>?) {
         if (products != null) {
             this.products = products
         }

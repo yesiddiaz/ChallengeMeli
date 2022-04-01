@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar.*
+import androidx.appcompat.widget.Toolbar.OnMenuItemClickListener
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,7 +17,6 @@ import com.meli.melichalllenge.R
 import com.meli.melichalllenge.data.Result
 import com.meli.melichalllenge.databinding.FragmentDetailBinding
 import com.meli.melichalllenge.ui.viewmodel.DetailViewModel
-import com.meli.melichalllenge.util.toCurrency
 
 class DetailFragment : Fragment(), OnMenuItemClickListener {
 
@@ -27,6 +26,7 @@ class DetailFragment : Fragment(), OnMenuItemClickListener {
     private val detailViewModel: DetailViewModel by viewModels()
 
     private val args by navArgs<DetailFragmentArgs>()
+    private val product by lazy { args.product }
     private val sharedPref by lazy {
         requireActivity().getSharedPreferences("favorites", Context.MODE_PRIVATE)
     }
@@ -39,7 +39,7 @@ class DetailFragment : Fragment(), OnMenuItemClickListener {
         // Inflate the layout for this fragment
         val stringSet = sharedPref?.getStringSet("ids", null)
         stringSet?.forEach {
-            if (args.product.body.id == it) {
+            if (product.id == it) {
                 binding.toolbar.menu[0].setIcon(R.drawable.favorite_filled)
             }
         }
@@ -47,21 +47,19 @@ class DetailFragment : Fragment(), OnMenuItemClickListener {
             requireActivity().onBackPressed()
         }
         binding.toolbar.setOnMenuItemClickListener(this)
-        val list = args.product.body.pictures.map { SlideModel(it.urlImage) }
-        detailViewModel.productModel.observe(viewLifecycleOwner) {
+        val list = product.pictures.map { SlideModel(it) }
+        detailViewModel.description.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Error -> Unit
                 Result.NoData -> Unit
-                is Result.Success -> binding.tvDescription.text = it.data.description
+                is Result.Success -> binding.tvDescription.text = it.data
             }
         }
-        detailViewModel.getDescription(args.product.body.id)
+        detailViewModel.getDescription(product.id)
         binding.apply {
-            args.product.body.let { product ->
-                imageSlider.setImageList(list, ScaleTypes.FIT)
-                tvTitleDetail.text = product.title
-                tvPriceDetail.text = product.price.toCurrency()
-            }
+            imageSlider.setImageList(list, ScaleTypes.FIT)
+            tvTitleDetail.text = product.title
+            tvPriceDetail.text = product.price
         }
         return binding.root
     }
@@ -74,8 +72,8 @@ class DetailFragment : Fragment(), OnMenuItemClickListener {
                 val ids = set.toMutableList()
                 try {
                     ids.forEach {
-                        if (args.product.body.id == it) {
-                            ids.remove(args.product.body.id)
+                        if (product.id == it) {
+                            ids.remove(product.id)
                             needAdd = false
                             return@forEach
                         }
@@ -83,7 +81,7 @@ class DetailFragment : Fragment(), OnMenuItemClickListener {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-                if (needAdd) ids.add(args.product.body.id)
+                if (needAdd) ids.add(product.id)
                 with(sharedPref.edit()) {
                     val newSet: MutableSet<String> = HashSet()
                     newSet.addAll(ids)

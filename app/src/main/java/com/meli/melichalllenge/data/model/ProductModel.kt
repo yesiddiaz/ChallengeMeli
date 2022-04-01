@@ -2,6 +2,8 @@ package com.meli.melichalllenge.data.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.meli.melichalllenge.ui.model.ProductUI
+import com.meli.melichalllenge.util.toCurrency
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -39,3 +41,17 @@ data class BaseAddress(
 data class Pictures(
     @SerializedName("secure_url") var urlImage: String
 ) : Parcelable
+
+fun ProductModel.toUI() =
+    body.run {
+        ProductUI(
+            id,
+            title,
+            price.toCurrency(),
+            condition,
+            image,
+            ubicate.toString(),
+            pictures.map { it.urlImage })
+    }
+
+fun List<ProductModel>.toUI() = map { it.toUI() }
