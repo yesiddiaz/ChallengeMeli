@@ -35,6 +35,7 @@ class ProductsFragment : Fragment() {
         _binding = FragmentProductsBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
         initRecyclerView()
+        //Add filter not accept special characters into search edittext
         val filter =
             InputFilter { source, start, end, _, _, _ ->
                 for (i in start until end) {
@@ -45,6 +46,7 @@ class ProductsFragment : Fragment() {
                 null
             }
         binding.etSearch.filters = arrayOf(filter)
+
         productsViewModel.productModel.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Result.Error -> {
@@ -61,6 +63,8 @@ class ProductsFragment : Fragment() {
                 }
             }
         }
+
+        //Capture the enter to perform the respective search
         binding.etSearch.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(p0: View?, keyCode: Int, event: KeyEvent?): Boolean {
                 if (event != null) {
@@ -85,6 +89,7 @@ class ProductsFragment : Fragment() {
         return binding.root
     }
 
+    //Init recycler view
     private fun initRecyclerView() {
         val navController =
             requireActivity().findNavController(R.id.nav_host_fragment)
@@ -99,6 +104,7 @@ class ProductsFragment : Fragment() {
         binding.rvProducts.adapter = adapter
     }
 
+    //Hide keyBoard
     private fun hideSoftKeyboard() {
         val imm = activity?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)

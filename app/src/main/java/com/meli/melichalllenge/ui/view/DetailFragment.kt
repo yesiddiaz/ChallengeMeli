@@ -64,6 +64,7 @@ class DetailFragment : Fragment(), OnMenuItemClickListener {
         return binding.root
     }
 
+    //Detect click in the item favorites
     override fun onMenuItemClick(p0: MenuItem?): Boolean {
         return when (p0?.itemId) {
             R.id.favorite -> {
