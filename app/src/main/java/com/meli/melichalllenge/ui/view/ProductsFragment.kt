@@ -3,6 +3,7 @@ package com.meli.melichalllenge.ui.view
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.InputFilter
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -52,14 +53,17 @@ class ProductsFragment : Fragment() {
                 is Result.Error -> {
                     adapter.updateList(emptyList())
                     binding.tvError.text = getString(R.string.error)
+                    Log.e("API", "TOKEN INVALID")
                 }
                 is Result.Success -> {
                     adapter.updateList(result.data)
                     binding.tvError.text = ""
+                    Log.i("API", "Correct consume")
                 }
                 Result.NoData -> {
                     adapter.updateList(emptyList())
                     binding.tvError.text = getString(R.string.nos_found_products)
+                    Log.e("API", "NOT FOUND PRODUCTS")
                 }
             }
         }
@@ -75,6 +79,7 @@ class ProductsFragment : Fragment() {
                                 "Please enter a character",
                                 Snackbar.LENGTH_SHORT
                             ).show()
+                            Log.i("Validate", "Not enter a character for search")
                             binding.tvError.text = ""
                         } else {
                             productsViewModel.searchProducts(binding.etSearch.text.toString())
@@ -99,6 +104,7 @@ class ProductsFragment : Fragment() {
                     it
                 )
             )
+            Log.i("Navigate", "Navigate products fragment to Detail fragment")
         }
         binding.rvProducts.layoutManager = LinearLayoutManager(requireActivity())
         binding.rvProducts.adapter = adapter
@@ -108,5 +114,6 @@ class ProductsFragment : Fragment() {
     private fun hideSoftKeyboard() {
         val imm = activity?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+        Log.i("KeyBoard", "Hide keyBoard")
     }
 }

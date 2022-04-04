@@ -2,6 +2,7 @@ package com.meli.melichalllenge.ui.view
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -68,6 +69,7 @@ class DetailFragment : Fragment(), OnMenuItemClickListener {
     override fun onMenuItemClick(p0: MenuItem?): Boolean {
         return when (p0?.itemId) {
             R.id.favorite -> {
+                Log.i("Favorite", "Press icon favorite")
                 var needAdd = true
                 val set: MutableSet<String> = sharedPref.getStringSet("ids", null) ?: HashSet()
                 val ids = set.toMutableList()
