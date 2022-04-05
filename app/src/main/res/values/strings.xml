@@ -6,4 +6,5 @@
     <string name="favorite">Favorite</string>
     <string name="error">Has ocurred error</string>
     <string name="nos_found_products">Not found products</string>
+    <string name="descripci_n">Descripción</string>
 </resources>
