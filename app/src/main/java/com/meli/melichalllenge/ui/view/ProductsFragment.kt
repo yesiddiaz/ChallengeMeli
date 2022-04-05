@@ -79,6 +79,7 @@ class ProductsFragment : Fragment() {
                                 "Please enter a character",
                                 Snackbar.LENGTH_SHORT
                             ).show()
+                            adapter.updateList(emptyList())
                             Log.i("Validate", "Not enter a character for search")
                             binding.tvError.text = ""
                         } else {
